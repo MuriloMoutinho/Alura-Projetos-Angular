@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { INewThought } from '../../../models/thought.model';
 import { ThoughtService } from '../../../services/thought.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -13,7 +12,7 @@ import { isLowerCase } from '../../../form-validators/lower-case.validator';
 export class CreateFormComponent {
 
   thoughtForm: FormGroup = this.formBuilder.group({
-    content: ["", Validators.compose([
+    content: ["", Validators.compose([ //não é obrigatório utilizar este Validators.compose, é possível apenas passar o array
       Validators.required,
       Validators.minLength(3),
       Validators.pattern(/(.|\s)*\S(.|\s)*/),

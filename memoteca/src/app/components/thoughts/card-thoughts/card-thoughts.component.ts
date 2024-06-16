@@ -12,6 +12,9 @@ export class CardThoughtsComponent {
   @Input({required: true})
   thought!: IThought;
 
+  @Input()
+  shouldUpdate: boolean = false;
+
   @Output()
   updateList: EventEmitter<void> = new EventEmitter<void>();
 
@@ -33,6 +36,8 @@ export class CardThoughtsComponent {
 
   favorite(){
     this.thoughtService.favoriteThought(this.thought).subscribe();
-    this.updateList.emit();
+    if(this.shouldUpdate){
+      this.updateList.emit();
+    }
   }
 }

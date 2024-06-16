@@ -15,6 +15,7 @@
       {{ title }} <br />
       Texto filtrado: {{ textFilter }}
     </h2>
+
     <div class="botoes">
       <button class="botao" (click)="desactiveGetOnlyFavorites()">Todos pensamentos</button>
       <button class="botao" (click)="activeGetOnlyFavorites()">Meus favoritos</button>
@@ -22,11 +23,14 @@
         Adicionar pensamento
       </button>
     </div>
+
   </header>
+
   <div class="mural" *ngIf="thoughtsList.length > 0; else noThoughts">
     <div *ngFor="let thought of thoughtsList">
       <app-card-thoughts
         (updateList)="getThoughtsList()"
+        [shouldUpdate]="getOnlyFavorites"
         [thought]="thought"
       ></app-card-thoughts>
     </div>
