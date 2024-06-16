@@ -1,0 +1,84 @@
+<section class="container criar-pensamentos ff-inter">
+  <header class="header">
+    <h2>Adicione um <br />pensamento novo</h2>
+  </header>
+
+  <form action="">
+    <label for="pensamento">Pensamento</label>
+    <input
+      type="textarea"
+      id="pensamento"
+      class="input"
+      name="pensamento"
+      placeholder="Digite um pensamento"
+      [(ngModel)]="thought.content"
+    />
+
+    <label for="autoria">Autoria ou fonte</label>
+    <input
+      type="textarea"
+      id="autoria"
+      name="autoria"
+      class="input"
+      placeholder="Digite uma autoria ou fonte"
+      [(ngModel)]="thought.authorShip"
+    />
+
+    <label for="modelo">Selecione o modelo do card: </label>
+    <div class="container-radio">
+      <div class="radio-modelo">
+        <label>
+          <input type="radio" value="modelo1" name="modelo-card" [(ngModel)]="thought.type"/>
+          <div class="custom-radio"><span></span></div>
+          <span>Modelo 1</span>
+        </label>
+
+        Prévia:
+        <div class="modelo modelo1 ff-roboto-mono">
+          <img src="imagens/modelo1.png" alt="Aspas azuis" />
+          <p class="conteudo">{{ thought.content }}</p>
+          <p class="autoria">
+            <b>{{ thought.authorShip }}</b>
+          </p>
+        </div>
+      </div>
+      <div class="radio-modelo">
+        <label>
+          <input type="radio" value="modelo2" name="modelo-card" [(ngModel)]="thought.type"/>
+          <div class="custom-radio"><span></span></div>
+          <span>Modelo 2</span>
+        </label>
+
+        Prévia:
+        <div class="modelo modelo2 ff-roboto-mono">
+          <img src="imagens/modelo2.png" alt="Aspas azul claro" />
+          <p class="conteudo">{{ thought.content }}</p>
+          <p class="autoria">
+            <b>{{ thought.authorShip }}</b>
+          </p>
+        </div>
+      </div>
+      <div class="radio-modelo">
+        <label>
+          <input type="radio" value="modelo3" name="modelo-card" [(ngModel)]="thought.type"/>
+          <div class="custom-radio"><span></span></div>
+          <span>Modelo 3</span>
+        </label>
+
+        Prévia:
+        <div class="modelo modelo3 ff-roboto-mono">
+          <img src="imagens/modelo3.png" alt="Aspas verdes" />
+          <p class="conteudo">{{ thought.content }}</p>
+          <p class="autoria">
+            <b>{{ thought.authorShip }}</b>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="acoes">
+      <button (click)="createThought()" class="botao">Salvar</button>
+      <button (click)="cancel()" class="botao">Cancelar</button>
+    </div>
+  </form>
+</section>
