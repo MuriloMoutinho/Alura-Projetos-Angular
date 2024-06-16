@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { INewThought, IThought } from '../models/thought.model';
@@ -13,8 +13,18 @@ export class ThoughtService {
 
   constructor(private http: HttpClient) { }
 
-  listAll(): Observable<IThought[]>{
-    return this.http.get<IThought[]>(this.API_URL);
+  listAll(page: number, textFilter?: string): Observable<IThought[]>{
+    const itemsByPage = 6;
+
+    let params = new HttpParams()
+      .set("_page", page)
+      .set("_limit", itemsByPage)
+
+    if(!!textFilter && textFilter.trim().length > 2){
+      params = params.set("q", textFilter)
+    }
+
+    return this.http.get<IThought[]>(this.API_URL, { params: params });
   }
 
   createThought(thought: INewThought): Observable<IThought>{

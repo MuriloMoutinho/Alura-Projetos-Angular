@@ -3,32 +3,52 @@
     <h2>Adicione um <br />pensamento novo</h2>
   </header>
 
-  <form action="">
+  <form [formGroup]="thoughtForm">
     <label for="pensamento">Pensamento</label>
     <input
       type="textarea"
       id="pensamento"
       class="input"
-      name="pensamento"
       placeholder="Digite um pensamento"
-      [(ngModel)]="thought.content"
+      formControlName="content"
     />
+    <div
+      class="mensagem__erro"
+      *ngIf="thoughtForm.get('content')?.errors?.['required']  && thoughtForm.get('content')?.touched"
+    >
+      <!-- ASSIM É ENSINADO NO CURSO, CRIAR UMA DIV PARA CADA ERRO -->
+      Pensamento é obrigatório
+    </div>
+    <div
+      class="mensagem__erro"
+      *ngIf="thoughtForm.get('content')?.errors?.['minlenght']  && thoughtForm.get('content')?.touched"
+    >
+      <!-- ASSIM É ENSINADO NO CURSO, CRIAR UMA DIV PARA CADA ERRO -->
+      Pensamento é obrigatório
+    </div>
 
     <label for="autoria">Autoria ou fonte</label>
     <input
       type="textarea"
       id="autoria"
-      name="autoria"
       class="input"
       placeholder="Digite uma autoria ou fonte"
-      [(ngModel)]="thought.authorShip"
+      formControlName="authorShip"
     />
+    <div class="mensagem__erro" *ngIf="thoughtForm.get('authorShip')?.touched">
+      <!-- ACREDITO QUE DESTA FORMA SEJA MELHOR, CRIAR UMA DIV UNICA DE ERRO QUE CONTEM A VALIDACAO SE O CAMPO JA FOI PREENCHIDO, ]
+       E CADA ERRO SER UM P DIFERENTE COM A PROPRIA VALIDACAO DO ERRO, PARA NAO REPETIR SEMPRE A CLASS E A VALIDACAO DE CAMPO JA ALTERADO.-->
+      <p *ngIf="thoughtForm.get('authorShip')?.errors?.['required']">Autoria é obrigatória</p>
+      <p *ngIf="thoughtForm.get('authorShip')?.hasError('minlength')">Autoria precisa ter no mínimo 3 caracteres</p>
+       <!-- É possível utilizar o errors, ou o hasError. Neste caso o resultado é o mesmo -->
+      <p *ngIf="thoughtForm.get('authorShip')?.errors?.['islowercase']">Autoria deve conter apenas letras minúsculas</p>
+    </div>
 
     <label for="modelo">Selecione o modelo do card: </label>
     <div class="container-radio">
       <div class="radio-modelo">
         <label>
-          <input type="radio" value="modelo1" name="modelo-card" [(ngModel)]="thought.type"/>
+          <input type="radio" value="modelo1" formControlName="type" />
           <div class="custom-radio"><span></span></div>
           <span>Modelo 1</span>
         </label>
@@ -36,15 +56,15 @@
         Prévia:
         <div class="modelo modelo1 ff-roboto-mono">
           <img src="imagens/modelo1.png" alt="Aspas azuis" />
-          <p class="conteudo">{{ thought.content }}</p>
+          <p class="conteudo">{{ thoughtForm.get("content")?.value }}</p>
           <p class="autoria">
-            <b>{{ thought.authorShip }}</b>
+            <b>{{ thoughtForm.get("authorShip")?.value }}</b>
           </p>
         </div>
       </div>
       <div class="radio-modelo">
         <label>
-          <input type="radio" value="modelo2" name="modelo-card" [(ngModel)]="thought.type"/>
+          <input type="radio" value="modelo2" formControlName="type" />
           <div class="custom-radio"><span></span></div>
           <span>Modelo 2</span>
         </label>
@@ -52,15 +72,15 @@
         Prévia:
         <div class="modelo modelo2 ff-roboto-mono">
           <img src="imagens/modelo2.png" alt="Aspas azul claro" />
-          <p class="conteudo">{{ thought.content }}</p>
+          <p class="conteudo">{{ thoughtForm.get("content")?.value }}</p>
           <p class="autoria">
-            <b>{{ thought.authorShip }}</b>
+            <b>{{ thoughtForm.get("authorShip")?.value }}</b>
           </p>
         </div>
       </div>
       <div class="radio-modelo">
         <label>
-          <input type="radio" value="modelo3" name="modelo-card" [(ngModel)]="thought.type"/>
+          <input type="radio" value="modelo3" formControlName="type" />
           <div class="custom-radio"><span></span></div>
           <span>Modelo 3</span>
         </label>
@@ -68,16 +88,22 @@
         Prévia:
         <div class="modelo modelo3 ff-roboto-mono">
           <img src="imagens/modelo3.png" alt="Aspas verdes" />
-          <p class="conteudo">{{ thought.content }}</p>
+          <p class="conteudo">{{ thoughtForm.get("content")?.value }}</p>
           <p class="autoria">
-            <b>{{ thought.authorShip }}</b>
+            <b>{{ thoughtForm.get("authorShip")?.value }}</b>
           </p>
         </div>
       </div>
     </div>
 
     <div class="acoes">
-      <button (click)="createThought()" class="botao">Salvar</button>
+      <button
+        (click)="createThought()"
+        [disabled]="thoughtForm.invalid"
+        [ngClass]="setButtonClass()"
+      >
+        Salvar
+      </button>
       <button (click)="cancel()" class="botao">Cancelar</button>
     </div>
   </form>
