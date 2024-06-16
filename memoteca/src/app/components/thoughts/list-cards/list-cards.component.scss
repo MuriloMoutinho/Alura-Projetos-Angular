@@ -38,6 +38,16 @@
   width: 30px;
 }
 
+.botoes {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.botoes button {
+  margin-left: 10px;
+  margin-right: 2px;
+}
+
 input::placeholder {
   color: #C4C4C4;
   font-family: 'Inter';

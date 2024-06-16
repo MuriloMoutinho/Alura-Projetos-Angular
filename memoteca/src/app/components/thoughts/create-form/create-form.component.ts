@@ -25,6 +25,7 @@ export class CreateFormComponent {
       isLowerCase,
     ]],
     type: ["modelo1", Validators.required],
+    isFavorite: [false]
   });
 
   constructor(
@@ -46,7 +47,7 @@ export class CreateFormComponent {
   }
 
   setButtonClass(){
-    if(this.thoughtForm.valid){  //esta class é um pouco inútil, visando que poderia ser colocado o pseudo classe  de :disable na classe de 'botao'
+    if(this.thoughtForm.valid){  //esta validação e class é um pouco inútil, visando que poderia ser colocado o pseudo classe  de :disable na classe de 'botao'
       return 'botao'
     } else {
       return 'botao__desabilitado'

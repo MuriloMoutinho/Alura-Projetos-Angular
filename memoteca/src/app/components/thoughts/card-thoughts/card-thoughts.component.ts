@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IThought } from '../../../models/thought.model';
+import { ThoughtService } from '../../../services/thought.service';
 
 @Component({
   selector: 'app-card-thoughts',
@@ -9,18 +10,29 @@ import { IThought } from '../../../models/thought.model';
 export class CardThoughtsComponent {
 
   @Input({required: true})
-  thought: IThought = {
-    id: 0,
-    content: 'texto padrão',
-    authorShip: 'perdão',
-    type: "modelo1"
-  };
+  thought!: IThought;
 
+  @Output()
+  updateList: EventEmitter<void> = new EventEmitter<void>();
+
+  constructor(private thoughtService: ThoughtService){ }
 
   thoughtWidth(): string {
     if (this.thought.content.length >= 256) {
       return 'pensamento-g';
     }
     return 'pensamento-p';
+  }
+
+  changeFavoriteIcon(){
+    if(this.thought.isFavorite){
+      return "ativo"
+    }
+    return "inativo"
+  }
+
+  favorite(){
+    this.thoughtService.favoriteThought(this.thought).subscribe();
+    this.updateList.emit();
   }
 }

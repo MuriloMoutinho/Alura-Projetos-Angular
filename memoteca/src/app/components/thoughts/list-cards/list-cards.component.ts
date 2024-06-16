@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IThought } from '../../../models/thought.model';
 import { ThoughtService } from '../../../services/thought.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-cards',
@@ -12,6 +13,8 @@ export class ListCardsComponent implements OnInit {
   page: number = 1;
   hasMoreItems: boolean = true;
   textFilter: string = '';
+  getOnlyFavorites: boolean = false;
+  title: string = "Meu Mural";
 
   constructor(private thoughtService: ThoughtService) {}
 
@@ -19,21 +22,18 @@ export class ListCardsComponent implements OnInit {
     this.getThoughtsList();
   }
 
-  searchThoughts() {
+  getThoughtsList() {
     this.page = 1;
     this.hasMoreItems = true;
-    this.getThoughtsList();
-  }
-
-  getThoughtsList() {
-    this.thoughtService.listAll(this.page, this.textFilter)
+    this.thoughtService
+      .listAll(this.page, this.textFilter, this.getOnlyFavorites)
       .subscribe((thoughtsList) => (this.thoughtsList = thoughtsList));
   }
 
   loadMoreThoughts() {
     this.page++;
     this.thoughtService
-      .listAll(this.page, this.textFilter)
+      .listAll(this.page, this.textFilter, this.getOnlyFavorites)
       .subscribe((thoughtsList) => {
         this.thoughtsList.push(...thoughtsList);
         if (!thoughtsList.length) {
@@ -41,4 +41,17 @@ export class ListCardsComponent implements OnInit {
         }
       });
   }
+
+  desactiveGetOnlyFavorites() {
+    this.title = "Meu Mural"
+    this.getOnlyFavorites = false;
+    this.getThoughtsList();
+  }
+
+  activeGetOnlyFavorites() {
+    this.title = "Meus Favoritos"
+    this.getOnlyFavorites = true;
+    this.getThoughtsList();
+  }
+
 }

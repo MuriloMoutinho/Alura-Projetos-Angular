@@ -14,7 +14,8 @@ export class EditThoughtComponent implements OnInit {
     id: 0,
     content: "",
     authorShip: "",
-    type: "modelo1"
+    type: "modelo1",
+    isFavorite: false
   }
   constructor(
     private thoughtService: ThoughtService,

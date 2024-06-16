@@ -3,6 +3,7 @@ export type IThought = {
   content: string,
   authorShip: string,
   type: ModelType,
+  isFavorite: boolean
 }
 
 type ModelType = "modelo1" | "modelo2" | "modelo3"

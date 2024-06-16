@@ -5,6 +5,9 @@
 
   <div class="acoes">
 
+    <button class="botao-favorito" (click)="favorite()">
+      <img [src]="'/imagens/icone-favorito-'+changeFavoriteIcon()+'.png'" [alt]="'Ícone de favorito ' + changeFavoriteIcon()">
+    </button>
     <button class="botao-editar" [routerLink]="'/pensamentos/editar/' + thought.id">
       <img src="/imagens/icone-editar.png" alt="Ícone de editar">
     </button>

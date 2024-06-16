@@ -6,19 +6,29 @@
         class="filtro"
         placeholder="O que você procura?"
         [(ngModel)]="textFilter"
-        (keyup)="searchThoughts()"
+        (keyup)="getThoughtsList()"
         autofocus
       />
       <img src="imagens/lupa.png" alt="Imagem lupa azul" />
     </div>
-    <h2 class="ff-inter">Meu Mural <br> Texto filtrado: {{ textFilter }}</h2>
-    <button routerLink="/criar-pensamento" class="botao">
-      Adicionar pensamento
-    </button>
+    <h2 class="ff-inter">
+      {{ title }} <br />
+      Texto filtrado: {{ textFilter }}
+    </h2>
+    <div class="botoes">
+      <button class="botao" (click)="desactiveGetOnlyFavorites()">Todos pensamentos</button>
+      <button class="botao" (click)="activeGetOnlyFavorites()">Meus favoritos</button>
+      <button routerLink="/criar-pensamento" class="botao">
+        Adicionar pensamento
+      </button>
+    </div>
   </header>
   <div class="mural" *ngIf="thoughtsList.length > 0; else noThoughts">
     <div *ngFor="let thought of thoughtsList">
-      <app-card-thoughts [thought]="thought"></app-card-thoughts>
+      <app-card-thoughts
+        (updateList)="getThoughtsList()"
+        [thought]="thought"
+      ></app-card-thoughts>
     </div>
   </div>
 </section>

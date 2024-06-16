@@ -13,7 +13,8 @@ export class OldCreateFormComponent {
   thought: INewThought = {
     content: "",
     authorShip: "",
-    type: "modelo1"
+    type: "modelo1",
+    isFavorite: false,
   }
 
   constructor(
