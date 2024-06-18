@@ -1,3 +1,3 @@
 export const environment = {
-  production: true
+  apiCepUrl: "https://viacep.com.br/ws/"
 };

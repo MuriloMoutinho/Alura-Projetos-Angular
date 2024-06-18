@@ -30,8 +30,9 @@
           mensagem="O campo de nome deve ser preenchido"
         >
         </app-mensagem-erro>
+        <!-- também é possível buscar o erro com .errors ou .hasError -->
         <app-mensagem-erro
-          *ngIf="nome?.errors?.['minlength']"
+          *ngIf="nome?.hasError('minlength')"
           mensagem="O campo de nome deve ter no mínimo 3 caracteres"
         >
         </app-mensagem-erro>
@@ -49,14 +50,19 @@
           ngModel
           required
           #nascimento="ngModel"
+          maiorDeIdade
         />
         <div
           class="erro__texto"
           *ngIf="(nascimento.invalid && nascimento.touched) || nascimento.dirty"
         >
           <app-mensagem-erro
-            *ngIf="nascimento.errors?.['required']"
+            *ngIf="nascimento.hasError('required')"
             mensagem="O campo de data de nascimento deve ser preenchido"
+          ></app-mensagem-erro>
+          <app-mensagem-erro
+            *ngIf="nascimento.hasError('maiorDeIdade')"
+            mensagem="O usuário deve ter mais de 18 anos"
           ></app-mensagem-erro>
         </div>
       </div>
@@ -79,12 +85,12 @@
           *ngIf="(telefone?.invalid && telefone?.touched) || telefone?.dirty"
         >
           <app-mensagem-erro
-            *ngIf="telefone?.errors?.['required']"
+            *ngIf="telefone?.hasError('required')"
             mensagem="O campo de telefone deve ser preenchido"
           >
           </app-mensagem-erro>
           <app-mensagem-erro
-            *ngIf="telefone?.errors?.['pattern']"
+            *ngIf="telefone?.hasError('pattern')"
             mensagem="Insira um número de telefone válido"
           >
           </app-mensagem-erro>
@@ -109,12 +115,12 @@
         *ngIf="(email?.invalid && email?.touched) || email?.dirty"
       >
         <app-mensagem-erro
-          *ngIf="email?.errors?.['required']"
+          *ngIf="email?.hasError('required')"
           mensagem="O campo de email deve ser preenchido"
         >
         </app-mensagem-erro>
         <app-mensagem-erro
-          *ngIf="email?.errors?.['pattern']"
+          *ngIf="email?.hasError('pattern')"
           mensagem="Insira um email válido"
         >
         </app-mensagem-erro>
@@ -125,41 +131,158 @@
 
     <div class="formulario__campo">
       <label class="campo__etiqueta" for="cep">CEP</label>
-      <input name="cep" id="cep" class="campo__escrita" />
+      <input
+        name="cep"
+        id="cep"
+        class="campo__escrita"
+        ngModel
+        required
+        #cep="ngModel"
+        minlength="8"
+        maxlength="9"
+        pattern="^(\d{5})(-?\d{3})$"
+        cepValido
+        (blur)="consultarCep($event, form)"
+      />
+      <div
+        class="erro__texto"
+        *ngIf="(cep?.invalid && cep?.touched) || cep?.dirty"
+      >
+        <app-mensagem-erro
+          *ngIf="cep?.hasError('required')"
+          mensagem="O CEP é obrigatório"
+        ></app-mensagem-erro>
+        <app-mensagem-erro
+          *ngIf="cep?.hasError('pattern')"
+          mensagem="Insira um cep válido"
+        ></app-mensagem-erro>
+        <app-mensagem-erro
+          *ngIf="cep?.hasError('cepValido')"
+          mensagem="Insira um cep existente"
+        ></app-mensagem-erro>
+      </div>
       <div id="erro"></div>
     </div>
 
     <div class="formulario__campo">
       <label class="campo__etiqueta" for="endereco">Endereço</label>
-      <input name="endereco" id="endereco" class="campo__escrita" />
+      <input
+        name="endereco"
+        id="endereco"
+        class="campo__escrita"
+        ngModel
+        required
+        maxlength="350"
+        minlength="5"
+        #endereco="ngModel"
+      />
+      <div
+        class="erro__texto"
+        *ngIf="(endereco?.invalid && endereco?.touched) || endereco?.dirty"
+      >
+        <app-mensagem-erro
+          *ngIf="endereco?.hasError('required')"
+          mensagem="O endereço é obrigatório"
+        ></app-mensagem-erro>
+        <app-mensagem-erro
+          *ngIf="endereco?.hasError('minlength')"
+          mensagem="O endereço deve possuir no mínimo 5 caracteres"
+        ></app-mensagem-erro>
+        <app-mensagem-erro
+          *ngIf="endereco?.hasError('maxlength')"
+          mensagem="O endereço deve possuir no máximo 350 caracteres"
+        ></app-mensagem-erro>
+      </div>
     </div>
 
     <div class="formulario__dupla">
       <div class="formulario__campo">
         <label class="campo__etiqueta" for="numero">Numero</label>
-        <input name="numero" id="numero" class="campo__escrita" />
+        <input
+          name="numero"
+          id="numero"
+          class="campo__escrita"
+          ngModel
+          required
+          #numero="ngModel"
+        />
+        <div
+          class="erro__texto"
+          *ngIf="(numero?.invalid && numero?.touched) || numero?.dirty"
+        >
+          <app-mensagem-erro
+            *ngIf="numero?.hasError('required')"
+            mensagem="O número é obrigatório"
+          ></app-mensagem-erro>
+        </div>
       </div>
 
       <div class="formulario__campo">
         <label class="campo__etiqueta" for="complemento">Complemento</label>
-        <input name="complemento" id="complemento" class="campo__escrita" />
+        <input
+          name="complemento"
+          id="complemento"
+          class="campo__escrita"
+          #complemento="ngModel"
+          ngModel
+        />
       </div>
     </div>
 
     <div class="formulario__campo">
       <label class="campo__etiqueta" for="bairro">Bairro</label>
-      <input name="bairro" id="bairro" class="campo__escrita" />
+      <input
+        name="bairro"
+        id="bairro"
+        class="campo__escrita"
+        ngModel
+        required
+        minlength="5"
+        maxlength="350"
+        #bairro="ngModel"
+      />
+      <div
+        class="erro__texto"
+        *ngIf="(bairro?.invalid && bairro?.touched) || bairro?.dirty"
+      >
+        <app-mensagem-erro
+          *ngIf="bairro?.hasError('required')"
+          mensagem="O bairro é obrigatório"
+        ></app-mensagem-erro>
+        <app-mensagem-erro
+          *ngIf="bairro?.hasError('minlength')"
+          mensagem="O bairro deve possuir no mínimo 5 caracteres"
+        ></app-mensagem-erro>
+        <app-mensagem-erro
+          *ngIf="bairro?.hasError('maxlength')"
+          mensagem="O bairro deve possuir no máximo 350 caracretes"
+        ></app-mensagem-erro>
+      </div>
     </div>
 
     <div class="formulario__dupla">
       <div class="formulario__campo">
         <label class="campo__etiqueta" for="cidade">Cidade</label>
-        <input name="cidade" id="cidade" class="campo__escrita" />
+        <input name="cidade" id="cidade" class="campo__escrita" ngModel #cidade="ngModel" required minlength="5" maxlength="350" />
+        <div class="erro__texto" *ngIf="(cidade?.invalid && cidade?.touched) || cidade?.dirty">
+          <app-mensagem-erro
+          *ngIf="cidade?.hasError('required')"
+          mensagem="A cidade é obrigatória"
+        ></app-mensagem-erro>
+          <app-mensagem-erro
+          *ngIf="cidade?.hasError('minlength')"
+          mensagem="A cidade deve possuir no mínimo 5 caracretes"
+        ></app-mensagem-erro>
+        <app-mensagem-erro
+        *ngIf="cidade?.hasError('maxlength')"
+        mensagem="A cidade deve possuir no máximo 350 caracretes"
+      ></app-mensagem-erro>
+        </div>
       </div>
 
       <div class="formulario__campo">
         <label class="campo__etiqueta" for="estado">UF</label>
-        <select id="estado" name="estado" class="campo__escrita">
+        <select id="estado" name="estado" class="campo__escrita" ngModel #estado="ngModel" required="">
           <option value="AC">Acre</option>
           <option value="AL">Alagoas</option>
           <option value="AP">Amapá</option>
@@ -189,6 +312,12 @@
           <option value="TO">Tocantins</option>
           <option value="EX">Estrangeiro</option>
         </select>
+        <div class="erro__texto" *ngIf="(estado?.invalid && estado?.touched) || estado?.dirty">
+          <app-mensagem-erro
+          *ngIf="estado?.hasError('required')"
+          mensagem="A estado é obrigatória"
+        ></app-mensagem-erro>
+      </div>
       </div>
     </div>
 
