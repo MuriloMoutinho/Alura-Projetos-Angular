@@ -19,7 +19,18 @@ export class AppComponent implements OnInit, DoCheck{
   }
 
   ngDoCheck(): void {
+    console.log("check")
     this.listaService.atualizarLocalStorage()
+  }
+
+  botaoFoiClicado(){
+    console.log("ok")
+    this.console()
+  }
+  oi = ""
+  console(){
+    console.log("ok 2")
+    this.oi = "aa"
   }
 
   editarItem(item: Item){
