@@ -15,10 +15,8 @@
 <div class="resultados" *ngIf="livrosEncontratos$ | async">
   {{ livrosResultado.totalItems }} resultados encontratods
 </div>
-<div class="container-card" *ngIf="livrosEncontratos$ | async as listaLivros, else telaInicial">
-  <div *ngFor="let livro of listaLivros">
-    <app-livro [livro]="livro"></app-livro>
-  </div>
+<div [@booksList]="livrosEncontratos$" class="container-card" *ngIf="livrosEncontratos$ | async as listaLivros, else telaInicial">
+  <app-livro *ngFor="let livro of listaLivros" [livro]="livro"></app-livro>
 </div>
 
 <ng-template #telaInicial>
